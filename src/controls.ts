@@ -41,6 +41,7 @@ export class PlaneControls {
       switch (event.key) {
         case "w":
         case "ArrowUp":
+          console.log("UP");
           this.keys.up = true;
           break;
         case "s":

@@ -49,6 +49,33 @@ road.rotateX(-Math.PI / 2);
 road.rotateZ(Math.PI / 2);
 scene.add(road);
 
+// Step 1: Load a texture for the sky
+let loader = new THREE.TextureLoader();
+let textureS = loader.load("path_to_your_texture.jpg");
+
+// Step 2: Create a large sphere geometry
+let geometryS = new THREE.SphereGeometry(5000, 60, 40);
+
+// Step 3: Create a material with the texture you loaded
+let material = new THREE.MeshBasicMaterial({
+  //map: textureS,
+  color: 0x00c0b0,
+  side: THREE.BackSide,
+});
+
+// Step 4: Create a mesh with the sphere geometry and the material, and add it to your scene
+let skybox = new THREE.Mesh(geometryS, material);
+scene.add(skybox);
+
+// Step 1: Create a THREE.PointLight instance
+let light = new THREE.PointLight(0xffffff, 1, 1000);
+
+// Step 2: Set the position of the light
+light.position.set(0, 200, 200);
+
+// Step 3: Add the light to your scene
+scene.add(light);
+
 // Initialize the keyboard controls
 const avion = new Avion();
 scene.add(avion.mesh);

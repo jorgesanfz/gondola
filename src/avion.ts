@@ -18,7 +18,46 @@ export default class Avion {
     this.camera = this.createCamera();
   }
 
-  update(camera: THREE.Camera) {
+  update(camera: THREE.PerspectiveCamera) {
+    const speed = 0.1;
+    // Step 1: Normalize the mouse coordinates to a [-1, 1] range
+    let mouseNormalized = new THREE.Vector2();
+    mouseNormalized.x = -this.controls.mouse.position.x; // / window.innerWidth) * 2 - 1;
+    mouseNormalized.y = this.controls.mouse.position.y; // / window.innerHeight) * 2 + 1;
+
+    // Step 2: Create a new THREE.Vector3 instance with the normalized mouse coordinates and a z-value of 0.5
+    let mouse3D = new THREE.Vector3(mouseNormalized.x, mouseNormalized.y, 1);
+
+    console.log(mouse3D);
+
+    // Step 3: Use the unproject method to transform the 2D point to a 3D point
+    //wmouse3D.unproject(this.camera);
+    console.log(mouse3D);
+
+    // Step 4: Calculate the direction vector from the mesh position to the mouse position
+    let direction = mouse3D; //mouse3D.sub(this.mesh.position).normalize();
+
+    // Step 5: Multiply this direction by a scalar to control the speed of the movement
+    let movement = direction.multiplyScalar(speed);
+
+    if (this.controls.keys.up)
+      // Step 6: Add this vector to the current position of the mesh to move it
+      this.mesh.position.add(movement);
+
+    /*// Step 3: Use the unproject method to transform the 2D point to a 3D point
+    mouse3D.unproject(this.camera);
+
+    // Step 4: Calculate the direction vector from the mesh position to the mouse position
+    let direction = mouse3D.sub(this.mesh.position).normalize();
+
+    // Step 5: Multiply this direction by a scalar to control the speed of the movement
+    let movement = direction.multiplyScalar(speed);
+
+    // Step 6: Add this vector to the current position of the mesh to move it
+    this.mesh.position.add(movement);*/
+  }
+
+  /*update(camera: THREE.Camera) {
     var vector = new THREE.Vector3(
       this.controls.mouse.position.x,
       this.controls.mouse.position.y,
@@ -33,7 +72,7 @@ export default class Avion {
     if (moveForward) {
       var pos = camera.position.clone().add(dir.multiplyScalar(distance));
     }
-  }
+  }*/
 
   /*update(camera: THREE.Camera) {
     const speed = 0.1;
