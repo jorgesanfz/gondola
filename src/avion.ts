@@ -37,35 +37,38 @@ export default class Avion {
     if (this.controls.keys.down) this.mesh.position.sub(movement);
 
     // ROTATE
-    //this.rotation();
-    const rotationSpeed = 0.05;
+    this.rotation();
+    /*const rotationSpeed = 0.05;
     this.mesh.rotation.x += this.controls.mouse.position.y * rotationSpeed;
-    this.mesh.rotation.y += -this.controls.mouse.position.x * rotationSpeed;
+    this.mesh.rotation.y += -this.controls.mouse.position.x * rotationSpeed;*/
   }
 
   rotation() {
-    const rotationSpeed = 0.05;
+    const rotationSpeed = 0.01;
     let directionToMouse = new THREE.Vector3(
       this.mouseNormalized.x,
       this.mouseNormalized.y,
       1
     ).sub(this.mesh.position);
 
-    // Step 2: Normalize this vector
+    // Normalize the direction vector
     directionToMouse.normalize();
 
-    // Step 3: Calculate the dot product of this vector and the forward vector of the mesh
+    // Calculate the dot product of the direction vector and the forward vector of the mesh
     let dot = directionToMouse.dot(
       this.mesh.getWorldDirection(new THREE.Vector3())
     );
 
-    // Step 4: If the dot product is within the desired range, apply the rotation
-    let angle = Math.acos(dot); // This gives the angle in radians
+    // Calculate the angle in radians from the dot product
+    let angle = Math.acos(dot);
+
+    // Define the angle limit (in radians)
     let angleLimit = THREE.MathUtils.degToRad(30); // Replace 30 with the desired angle limit in degrees
 
+    // If the angle is within the limit, apply the rotation
     if (angle < angleLimit) {
       this.mesh.rotation.x += this.controls.mouse.position.y * rotationSpeed;
-      this.mesh.rotation.y += this.controls.mouse.position.x * rotationSpeed;
+      this.mesh.rotation.y += -this.controls.mouse.position.x * rotationSpeed;
     }
   }
 }

@@ -3,7 +3,7 @@ import * as THREE from "three";
 const textureLoader = new THREE.TextureLoader();
 
 export default function createSpace(scene: THREE.Scene) {
-  scene.add(createGround(), createRoad(), createSky(), createLight());
+  scene.add(/*createGround(), createRoad(),*/ createSky(), createLight());
 }
 
 let material = new THREE.MeshBasicMaterial({
