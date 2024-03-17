@@ -3,7 +3,7 @@ import * as THREE from "three";
 const textureLoader = new THREE.TextureLoader();
 
 export default function createSpace(scene: THREE.Scene) {
-  scene.add(/*createGround(), createRoad(),*/ createSky(), createLight());
+  scene.add(createGround(), createRoad(), createSky(), createLight());
 }
 
 let material = new THREE.MeshBasicMaterial({
@@ -11,13 +11,29 @@ let material = new THREE.MeshBasicMaterial({
   wireframe: true,
 });
 
-function createLight() {
+/*function createLight() {
   // Step 1: Create a THREE.PointLight instance
   let light = new THREE.PointLight(0xffffff, 1, 1000);
   // Step 2: Set the position of the light
   light.position.set(0, 200, 200);
   // Step 3: Add the light to your scene
   return light;
+}*/
+
+function createLight() {
+  // Create a directional light
+  const dirLight = new THREE.DirectionalLight(0xffffff, 0.5);
+  dirLight.position.set(0, 200, 100);
+
+  // Create an ambient light
+  const ambientLight = new THREE.AmbientLight(0x404040, 0.5); // soft white light
+
+  // Create a group and add the lights
+  const lightGroup = new THREE.Group();
+  lightGroup.add(dirLight);
+  lightGroup.add(ambientLight);
+
+  return lightGroup;
 }
 
 function createGround() {
@@ -41,11 +57,11 @@ function createSky() {
   // Step 2: Create a large sphere geometry
   let geometryS = new THREE.SphereGeometry(1000, 60, 40);
   // Step 3: Create a material with the texture you loaded
-  /*let material = new THREE.MeshBasicMaterial({
+  let material = new THREE.MeshBasicMaterial({
     //map: texture,
     color: 0x00c0b0,
     side: THREE.BackSide,
-  });*/
+  });
   // Step 4: Create a mesh with the sphere geometry and the material, and add it to your scene
   let skybox = new THREE.Mesh(geometryS, material);
 
